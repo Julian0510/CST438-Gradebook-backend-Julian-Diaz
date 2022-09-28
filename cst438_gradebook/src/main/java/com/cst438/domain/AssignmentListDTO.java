@@ -23,6 +23,16 @@ public class AssignmentListDTO {
 			this.courseTitle = courseTitle;
 		}
 
+		public AssignmentDTO() {
+			this.assignmentId = 0;
+			this.courseId = 0;
+			this.assignmentName = "";
+			this.dueDate = "";
+			this.courseTitle = "";
+			
+			// TODO Auto-generated constructor stub
+		}
+
 		@Override
 		public String toString() {
 			return "[assignmentId=" + assignmentId + ", assignmentName=" + assignmentName + ", dueDate="
