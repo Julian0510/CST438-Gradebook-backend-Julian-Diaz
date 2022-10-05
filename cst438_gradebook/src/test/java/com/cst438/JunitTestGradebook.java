@@ -390,7 +390,7 @@ public class JunitTestGradebook {
 		
 		// then do an http post request with body of assignmentDTO as JSON
 		response = mvc
-				.perform(MockMvcRequestBuilders.post("/gradebook/course/" + TEST_COURSE_ID + "/assignment").accept(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/assignment").accept(MediaType.APPLICATION_JSON)
 						.content(asJsonString(assignmentDTO)).contentType(MediaType.APPLICATION_JSON))
 						.andReturn().getResponse();
 	

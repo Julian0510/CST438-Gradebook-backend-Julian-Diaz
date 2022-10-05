@@ -173,27 +173,26 @@ public class GradeBookController {
 	}
 	
 	//adding a new assignment to the course
-	@PostMapping("/gradebook/course/{course_id}/assignment")
+	@PostMapping("/assignment/")
 	@Transactional
-	public AssignmentListDTO.AssignmentDTO newAssignment(@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO, @PathVariable int course_id) {
-		
+	public AssignmentListDTO.AssignmentDTO newAssignment(@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO) {
 		// check that this request contains a valid course
-		Course c = courseRepository.findById(course_id).orElse(null);
-		
+		Course c = courseRepository.findById(assignmentDTO.courseId).orElse(null);
+
 		String name = assignmentDTO.assignmentName;
 		Date dueDate = java.sql.Date.valueOf(assignmentDTO.dueDate);
-		
+
 		Assignment assignment = new Assignment();
-		
+		System.out.println("line 189");		
 		assignment.setName(name); 
 		assignment.setDueDate(dueDate);
 		assignment.setNeedsGrading(1);
 		assignment.setCourse(c);
 		
 		Assignment savedAssignment = assignmentRepository.save(assignment);
-				
+
 		AssignmentListDTO.AssignmentDTO result = createAssignmentDTO(savedAssignment);
-		
+
 		return result;
 	}
 	
