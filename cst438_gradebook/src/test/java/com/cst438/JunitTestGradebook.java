@@ -335,12 +335,11 @@ public class JunitTestGradebook {
 		assignment.setName("Assignment 1");
 		assignment.setNeedsGrading(0); //so we can delete the assignment
 		
-		given(courseRepository.findById(TEST_COURSE_ID)).willReturn(Optional.of(course));
 		given(assignmentRepository.findById(TEST_ASSIGNMENT_ID)).willReturn(Optional.of(assignment));
 		
 		response = mvc.perform(
 				MockMvcRequestBuilders
-					.delete("/gradebook/course/" + TEST_COURSE_ID + "/delete-assignment/" + TEST_ASSIGNMENT_ID))
+					.delete("/gradebook/course/delete-assignment/" + TEST_ASSIGNMENT_ID))
 					.andReturn().getResponse();
 		
 		assertEquals(400, response.getStatus());
@@ -391,7 +390,7 @@ public class JunitTestGradebook {
 		
 		// then do an http post request with body of assignmentDTO as JSON
 		response = mvc
-				.perform(MockMvcRequestBuilders.post("/gradebook/course/" + TEST_COURSE_ID + "/assignment").accept(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/assignment").accept(MediaType.APPLICATION_JSON)
 						.content(asJsonString(assignmentDTO)).contentType(MediaType.APPLICATION_JSON))
 						.andReturn().getResponse();
 	

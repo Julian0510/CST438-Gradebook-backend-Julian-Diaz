@@ -91,7 +91,7 @@ public class GradeBookController {
 		return gradebook;
 	}
 	
-	@PostMapping("/course/{course_id}/finalgrades")
+	@PostMapping("/course/finalgrades")
 	@Transactional
 	public void calcFinalGrades(@PathVariable int course_id) {
 		System.out.println("Gradebook - calcFinalGrades for course " + course_id);
@@ -173,34 +173,33 @@ public class GradeBookController {
 	}
 	
 	//adding a new assignment to the course
-	@PostMapping("/gradebook/course/{course_id}/assignment")
+	@PostMapping("/assignment/")
 	@Transactional
-	public AssignmentListDTO.AssignmentDTO newAssignment(@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO, @PathVariable int course_id) {
-		
+	public AssignmentListDTO.AssignmentDTO newAssignment(@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO) {
 		// check that this request contains a valid course
-		Course c = courseRepository.findById(course_id).orElse(null);
-		
+		Course c = courseRepository.findById(assignmentDTO.courseId).orElse(null);
+
 		String name = assignmentDTO.assignmentName;
 		Date dueDate = java.sql.Date.valueOf(assignmentDTO.dueDate);
-		
+
 		Assignment assignment = new Assignment();
-		
+		System.out.println("line 189");		
 		assignment.setName(name); 
 		assignment.setDueDate(dueDate);
 		assignment.setNeedsGrading(1);
 		assignment.setCourse(c);
 		
 		Assignment savedAssignment = assignmentRepository.save(assignment);
-				
+
 		AssignmentListDTO.AssignmentDTO result = createAssignmentDTO(savedAssignment);
-		
+
 		return result;
 	}
 	
 	//updating the assignment name
-	@PutMapping("/gradebook/course/{course_id}/assignment-name-update/{assignment_id}")
+	@PutMapping("/gradebook/course/assignment-name-update/{assignment_id}")
 	@Transactional
-	public void updateAssignmentName (@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO, @PathVariable("course_id") Integer courseID, @PathVariable("assignment_id") Integer assignmentId ) {
+	public void updateAssignmentName (@RequestBody AssignmentListDTO.AssignmentDTO assignmentDTO, @PathVariable("assignment_id") Integer assignmentId ) {
 		String email = "dwisneski@csumb.edu";
 		Assignment assignment = checkAssignment(assignmentId, email);
 		
@@ -210,9 +209,9 @@ public class GradeBookController {
 	}
 	
 	//deleting an assignment
-	@DeleteMapping("/gradebook/course/{course_id}/delete-assignment/{assignment_id}")
+	@DeleteMapping("/gradebook/course/delete-assignment/{assignment_id}")
 	@Transactional
-	public void deleteAssignment(@PathVariable("course_id") Integer courseId,  @PathVariable("assignment_id") Integer assignmentId) {
+	public void deleteAssignment(@PathVariable("assignment_id") Integer assignmentId) {
 		String email = "dwisneski@csumb.edu";
 		
 		Assignment assignment = checkAssignment(assignmentId, email);
