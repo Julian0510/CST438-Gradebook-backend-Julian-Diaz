@@ -91,7 +91,7 @@ public class GradeBookController {
 		return gradebook;
 	}
 	
-	@PostMapping("/course/finalgrades")
+	@PostMapping("/course/{course_id}/finalgrades")
 	@Transactional
 	public void calcFinalGrades(@PathVariable int course_id) {
 		System.out.println("Gradebook - calcFinalGrades for course " + course_id);
